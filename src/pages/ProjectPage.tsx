@@ -87,11 +87,11 @@ export default function ProjectPage() {
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${headerImageUrl})` }}
         />
-        <div className="absolute inset-0 bg-black/30" />
+        <div className="absolute inset-0" />
         <div className="absolute bottom-8 md:bottom-12 left-1/2 transform -translate-x-1/2">
           <Button
             variant="outline"
-            className="bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 px-6 py-2 md:px-8 md:py-3 text-sm md:text-base"
+            className="cursor-pointer bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 px-6 py-2 md:px-8 md:py-3 text-sm md:text-base"
             onClick={() =>
               window.scrollTo({ top: window.innerHeight, behavior: "smooth" })
             }

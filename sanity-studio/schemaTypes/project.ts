@@ -40,6 +40,13 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'order',
+      title: 'Display Order',
+      type: 'number',
+      description: 'Order in which this project appears on the homepage (lower numbers first)',
+      validation: (Rule) => Rule.required().min(0),
+    }),
+    defineField({
       name: 'content',
       title: 'Main Content (Portable Text)',
       type: 'array',

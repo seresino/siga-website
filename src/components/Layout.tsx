@@ -9,7 +9,6 @@ export default function Layout() {
       <MobileSidebar />
       <DesktopSidebar />
 
-      {/* Main content area needs the margin to avoid the desktop sidebar */}
       <main className="">
         <Outlet />
       </main>

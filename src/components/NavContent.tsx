@@ -6,7 +6,13 @@ import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
 
-export const NavContent = ({ onLinkClick }: { onLinkClick?: () => void }) => {
+export const NavContent = ({
+  onLinkClick,
+  isMobile,
+}: {
+  onLinkClick?: () => void;
+  isMobile?: boolean;
+}) => {
   const { pathname } = useLocation();
   const [projects, setProjects] = useState<Project[]>([]);
 
@@ -26,29 +32,38 @@ export const NavContent = ({ onLinkClick }: { onLinkClick?: () => void }) => {
   const codeProjects = projects.filter((p) => p.projectType === "code");
 
   const cardClassName = "rounded-md bg-black text-white";
+  const textColor = "text-white";
+  const separatorColor = "bg-white";
 
   return (
     <nav className="flex flex-col min-h-full space-y-2 py-4">
-      <Link
-        to="/"
-        className="text-white text-2xl text-left pl-2 font-bold mb-4 block hover:italic transition-colors"
-      >
-        ruby seresin
-      </Link>
+      {!isMobile && (
+        <Card className={cardClassName}>
+          <CardContent>
+            <Link
+              to="/"
+              className="text-white text-xl text-left font-bold block hover:italic transition-colors"
+            >
+              ruby seresin
+            </Link>
+          </CardContent>
+        </Card>
+      )}
       {filmProjects.length > 0 && (
         <Card className={cardClassName}>
           <CardContent>
-            <h3 className="font-medium text-sm tracking-wide">film</h3>
-            <Separator className="my-2 bg-white" />
+            <h3 className="font-medium text-sm tracking-wide">Film</h3>
+            <Separator className={cn("my-2", separatorColor)} />
             <ul className="space-y-1.5">
               {filmProjects.map((project) => (
                 <li key={project._id}>
                   <Link
                     to={`/film/${project.slug.current}`}
                     className={cn(
-                      "block text-sm text-white hover:italic transition-colors",
+                      "block text-sm hover:italic transition-colors",
+                      textColor,
                       pathname === `/film/${project.slug.current}` &&
-                        "text-white font-medium"
+                        "font-medium"
                     )}
                     onClick={onLinkClick}
                   >
@@ -64,17 +79,18 @@ export const NavContent = ({ onLinkClick }: { onLinkClick?: () => void }) => {
       {codeProjects.length > 0 && (
         <Card className={cardClassName}>
           <CardContent>
-            <h3 className="font-medium text-sm tracking-wide">code</h3>
-            <Separator className="my-2 bg-white" />
+            <h3 className="font-medium text-sm tracking-wide">Code</h3>
+            <Separator className={cn("my-2", separatorColor)} />
             <ul className="space-y-1.5">
               {codeProjects.map((project) => (
                 <li key={project._id}>
                   <Link
                     to={`/code/${project.slug.current}`}
                     className={cn(
-                      "block text-sm text-white hover:italic transition-colors",
+                      "block text-sm hover:italic transition-colors",
+                      textColor,
                       pathname === `/code/${project.slug.current}` &&
-                        "text-white font-medium"
+                        "font-medium"
                     )}
                     onClick={onLinkClick}
                   >
@@ -94,27 +110,34 @@ export const NavContent = ({ onLinkClick }: { onLinkClick?: () => void }) => {
           <Link
             to="/about"
             className={cn(
-              "block text-sm text-white hover:italic transition-colors",
-              pathname === "/about" && "text-white font-medium"
+              "block text-sm hover:italic transition-colors",
+              textColor,
+              pathname === "/about" && "font-medium"
             )}
             onClick={onLinkClick}
           >
-            about
+            About
           </Link>
 
           <a
             href="https://instagram.com/rubyseresin"
             target="_blank"
             rel="noopener noreferrer"
-            className="block text-sm text-white hover:italic transition-colors"
+            className={cn(
+              "block text-sm hover:italic transition-colors",
+              textColor
+            )}
           >
-            instagram
+            Instagram
           </a>
           <a
             href="mailto:ruby.seresin@gmail.com"
-            className="block text-sm text-white hover:italic transition-colors"
+            className={cn(
+              "block text-sm hover:italic transition-colors",
+              textColor
+            )}
           >
-            email
+            Email
           </a>
         </CardContent>
       </Card>

@@ -17,12 +17,13 @@ export function urlFor(source: SanityImageSource) {
   return builder.image(source);
 }
 
-export const projectsQuery = `*[_type == "project"] | order(title asc) {
+export const projectsQuery = `*[_type == "project"] | order(order asc) {
   _id,
   title,
   slug,
   projectType,
-  coverImage
+  coverImage,
+  order
 }`;
 
 export const projectBySlugQuery = `*[_type == "project" && slug.current == $slug][0] {

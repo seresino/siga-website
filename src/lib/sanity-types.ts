@@ -37,6 +37,7 @@ export interface Project {
   };
   projectType: "film" | "code";
   coverImage: SanityImage;
+  order: number; // Display order on homepage
   content: any[]; // Portable Text content
   videos?: ProjectVideo[]; // <-- NEW: Array of videos
   gallery?: GalleryImage[]; // <-- NEW: Array of gallery images
