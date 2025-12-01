@@ -7,14 +7,33 @@ export interface SanityImage {
   alt?: string;
 }
 
-// Keep this for the About page
-export interface About {
+// Logo variation object
+export interface Logo {
+  _key: string;
+  name: string;
+  description?: string;
+  file: {
+    asset: {
+      _ref: string;
+      _type: "reference";
+    };
+  };
+}
+
+// Site-wide settings (includes About page content)
+export interface SiteSettings {
   _id: string;
-  title: string;
-  content: string;
+  siteName: string;
+  email?: string;
+  instagram?: string;
+  videoReelUrl?: string;
+  // Branding assets
+  logos?: Logo[];
+  favicon?: SanityImage;
+  // About page fields
+  aboutTitle?: string;
   profileImage?: SanityImage;
-  email: string;
-  instagram: string;
+  aboutContent?: string;
 }
 
 // A new type for our gallery images, which include a caption

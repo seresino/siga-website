@@ -37,12 +37,32 @@ export const projectBySlugQuery = `*[_type == "project" && slug.current == $slug
   gallery[]
 }`;
 
-// This query for the About page is still correct
-export const aboutQuery = `*[_type == "about"][0] {
+// Query for site-wide settings (includes About page content)
+export const siteSettingsQuery = `*[_type == "siteSettings"][0] {
   _id,
-  title,
-  content,
-  profileImage,
+  siteName,
   email,
-  instagram
+  instagram,
+  videoReelUrl,
+  logos[]{
+    _key,
+    name,
+    description,
+    "file": file.asset->
+  },
+  favicon,
+  aboutTitle,
+  profileImage,
+  aboutContent
 }`;
+// Helper to get logo file URL from Sanity
+export function getLogoUrl(logoAsset: any): string | null {
+  if (!logoAsset?._ref && !logoAsset?.url) return null;
+  // If it's already a URL, return it
+  if (logoAsset.url) return logoAsset.url;
+  // Otherwise construct the URL from the asset reference
+  const ref = logoAsset._ref;
+  if (!ref) return null;
+  const [_file, id, extension] = ref.split('-');
+  return `https://cdn.sanity.io/files/${client.config().projectId}/${client.config().dataset}/${id}.${extension}`;
+}
