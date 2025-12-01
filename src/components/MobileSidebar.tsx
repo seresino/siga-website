@@ -1,10 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavContent } from "@/components/NavContent";
 import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
+import { client, siteSettingsQuery } from "@/lib/sanity";
+import type { SiteSettings } from "@/lib/sanity-types";
 
 export const MobileSidebar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null);
+
+  useEffect(() => {
+    async function fetchSettings() {
+      try {
+        const settings = await client.fetch<SiteSettings>(siteSettingsQuery);
+        setSiteSettings(settings);
+      } catch (error) {
+        console.error("Error fetching site settings:", error);
+      }
+    }
+    fetchSettings();
+  }, []);
 
   return (
     <div className="md:hidden">
@@ -18,7 +33,7 @@ export const MobileSidebar = () => {
                 className="text-xl font-bold"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Client Name
+                {siteSettings?.siteName || "Client Name"}
               </Link>
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

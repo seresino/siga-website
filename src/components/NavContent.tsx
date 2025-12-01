@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { client, projectsQuery } from "@/lib/sanity";
-import type { Project } from "@/lib/sanity-types";
+import { client, projectsQuery, siteSettingsQuery } from "@/lib/sanity";
+import type { Project, SiteSettings } from "@/lib/sanity-types";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
@@ -15,17 +15,22 @@ export const NavContent = ({
 }) => {
   const { pathname } = useLocation();
   const [projects, setProjects] = useState<Project[]>([]);
+  const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null);
 
   useEffect(() => {
-    async function fetchProjects() {
+    async function fetchData() {
       try {
-        const fetchedProjects = await client.fetch<Project[]>(projectsQuery);
+        const [fetchedProjects, fetchedSettings] = await Promise.all([
+          client.fetch<Project[]>(projectsQuery),
+          client.fetch<SiteSettings>(siteSettingsQuery),
+        ]);
         setProjects(fetchedProjects || []);
+        setSiteSettings(fetchedSettings);
       } catch (error) {
-        console.error("Error fetching projects for navigation:", error);
+        console.error("Error fetching navigation data:", error);
       }
     }
-    fetchProjects();
+    fetchData();
   }, []);
 
   const filmProjects = projects.filter((p) => p.projectType === "film");
@@ -44,7 +49,7 @@ export const NavContent = ({
               to="/"
               className="text-white text-xl text-left font-bold block hover:italic transition-colors"
             >
-              Client Name
+              {siteSettings?.siteName || "Client Name"}
             </Link>
           </CardContent>
         </Card>
@@ -119,26 +124,30 @@ export const NavContent = ({
             About
           </Link>
 
-          <a
-            href="https://instagram.com/YOUR_INSTAGRAM"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={cn(
-              "block text-sm hover:italic transition-colors",
-              textColor
-            )}
-          >
-            Instagram
-          </a>
-          <a
-            href="mailto:YOUR_EMAIL@example.com"
-            className={cn(
-              "block text-sm hover:italic transition-colors",
-              textColor
-            )}
-          >
-            Email
-          </a>
+          {siteSettings?.instagram && (
+            <a
+              href={siteSettings.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(
+                "block text-sm hover:italic transition-colors",
+                textColor
+              )}
+            >
+              Instagram
+            </a>
+          )}
+          {siteSettings?.email && (
+            <a
+              href={`mailto:${siteSettings.email}`}
+              className={cn(
+                "block text-sm hover:italic transition-colors",
+                textColor
+              )}
+            >
+              Email
+            </a>
+          )}
         </CardContent>
       </Card>
     </nav>
