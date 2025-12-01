@@ -9,7 +9,7 @@ export default defineType({
       name: 'title',
       title: 'Page Title',
       type: 'string',
-      description: 'The main headline for the about page (e.g., "About Ruby Seresin").',
+      description: 'The main headline for the about page (e.g., "About [Client Name]").',
     }),
     defineField({
       name: 'profileImage',

@@ -1,73 +1,215 @@
-# React + TypeScript + Vite
+# Portfolio Website Template
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive portfolio website built with **React**, **TypeScript**, **Vite**, **TailwindCSS**, and **Sanity CMS**.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Modern Tech Stack**: React 19, TypeScript, Vite, TailwindCSS 4
+- **Headless CMS**: Sanity.io for easy content management
+- **Responsive Design**: Mobile-first with elegant sidebar navigation
+- **Project Showcase**: Support for both film and code projects
+- **Rich Content**: Portable text, image galleries, and video embeds
+- **Fast & Optimized**: Built with performance in mind
 
-## React Compiler
+## 📋 Prerequisites
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Before you begin, ensure you have:
 
-## Expanding the ESLint configuration
+- **Node.js** (v18 or higher)
+- **npm** or **yarn**
+- A **Sanity.io** account (free tier available)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠️ Setup Instructions
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 1. Clone or Copy This Repository
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+cd /path/to/your/projects
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Install Dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+#### Main Application
+```bash
+npm install
 ```
+
+#### Sanity Studio (CMS)
+```bash
+cd sanity-studio
+npm install
+cd ..
+```
+
+### 3. Set Up Sanity CMS
+
+#### Create a Sanity Project
+
+1. Go to [sanity.io](https://www.sanity.io/) and create a free account
+2. Create a new project
+3. Note your **Project ID** and **Dataset** name (usually "production")
+
+#### Configure Sanity
+
+Update the following files with your Sanity project ID:
+
+**`sanity-studio/sanity.config.ts`**
+```typescript
+projectId: 'YOUR_SANITY_PROJECT_ID', // Replace this
+```
+
+**`sanity-studio/sanity.cli.ts`**
+```typescript
+projectId: 'YOUR_SANITY_PROJECT_ID', // Replace this
+```
+
+**`src/sanityClient.ts`**
+```typescript
+projectId: "YOUR_SANITY_PROJECT_ID", // Replace this
+```
+
+### 4. Create Environment Variables
+
+Create a `.env.local` file in the root directory:
+
+```bash
+VITE_SANITY_PROJECT_ID="YOUR_SANITY_PROJECT_ID"
+```
+
+### 5. Customize Content
+
+Update the following placeholders throughout the codebase:
+
+- **Client Name**: Replace "Client Name" in `src/components/NavContent.tsx` and `src/components/MobileSidebar.tsx`
+- **Contact Info**: Update email and Instagram links in `src/components/NavContent.tsx`
+- **Page Title**: Update in `index.html`
+- **Favicon**: Replace `public/favicon.svg` with your client's logo
+
+### 6. Deploy Sanity Studio
+
+```bash
+cd sanity-studio
+npm run deploy
+```
+
+This will give you a URL like `https://your-project.sanity.studio` where you can manage content.
+
+### 7. Add Content in Sanity
+
+1. Go to your deployed Sanity Studio
+2. Create an **About Page** with:
+   - Title
+   - Profile image
+   - Content (bio)
+   - Email
+   - Instagram URL
+3. Add **Projects** with:
+   - Title and slug
+   - Project type (film or code)
+   - Cover image
+   - Display order
+   - Content (portable text)
+   - Optional: videos and gallery images
+
+## 🚀 Running the Application
+
+### Development Mode
+
+#### Start the main application:
+```bash
+npm run dev
+```
+Visit `http://localhost:5173`
+
+#### Start Sanity Studio (optional, for local CMS development):
+```bash
+cd sanity-studio
+npm run dev
+```
+Visit `http://localhost:3333`
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+The build output will be in the `dist` folder.
+
+### Preview Production Build
+
+```bash
+npm run preview
+```
+
+## 📁 Project Structure
+
+```
+.
+├── public/              # Static assets
+├── sanity-studio/       # Sanity CMS configuration
+│   ├── schemaTypes/     # Content schemas (about, project)
+│   └── sanity.config.ts # Sanity configuration
+├── src/
+│   ├── components/      # React components
+│   │   ├── ui/         # UI components (shadcn/ui)
+│   │   ├── Layout.tsx
+│   │   ├── NavContent.tsx
+│   │   ├── DesktopSidebar.tsx
+│   │   └── MobileSidebar.tsx
+│   ├── lib/            # Utilities and Sanity client
+│   ├── pages/          # Page components
+│   │   ├── HomePage.tsx
+│   │   ├── AboutPage.tsx
+│   │   └── ProjectPage.tsx
+│   ├── App.tsx
+│   └── main.tsx
+├── package.json
+└── README.md
+```
+
+## 🎨 Customization
+
+### Styling
+
+- Global styles: `src/index.css`
+- TailwindCSS config: Uses Tailwind 4 with CSS variables
+- Color scheme: Defined in `src/index.css` (currently black & white theme)
+
+### Content Schema
+
+Modify content types in `sanity-studio/schemaTypes/`:
+- `about.ts` - About page structure
+- `project.ts` - Project structure
+
+### Navigation
+
+Project types (Film/Code) can be customized in `sanity-studio/schemaTypes/project.ts`
+
+## 🚢 Deployment
+
+### Vercel (Recommended)
+
+1. Push your code to GitHub
+2. Import project in Vercel
+3. Add environment variable: `VITE_SANITY_PROJECT_ID`
+4. Deploy!
+
+### Netlify
+
+1. Push your code to GitHub
+2. Import project in Netlify
+3. Add environment variable: `VITE_SANITY_PROJECT_ID`
+4. Build command: `npm run build`
+5. Publish directory: `dist`
+
+## 📝 License
+
+This template is free to use for your client projects.
+
+## 🆘 Support
+
+For issues with:
+- **Sanity CMS**: Check [Sanity documentation](https://www.sanity.io/docs)
+- **React/Vite**: Check [Vite documentation](https://vitejs.dev/)
+- **TailwindCSS**: Check [Tailwind documentation](https://tailwindcss.com/)

@@ -53,7 +53,7 @@ export default function AboutPage() {
           <div className="mb-6 md:mb-8">
             <img
               src={profileImageUrl}
-              alt={about.profileImage?.alt || "Ruby Seresin"}
+              alt={about.profileImage?.alt || "Profile"}
               className="w-24 h-24 md:w-32 md:h-32 rounded-full mx-auto object-cover"
             />
           </div>

@@ -18,7 +18,7 @@ export const MobileSidebar = () => {
                 className="text-xl font-bold"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                ruby seresin
+                Client Name
               </Link>
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

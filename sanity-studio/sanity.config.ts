@@ -6,9 +6,9 @@ import {myStructure} from './deskStructure'
 
 export default defineConfig({
   name: 'default',
-  title: 'mywebsite',
+  title: 'Client Website',
 
-  projectId: 'dlpmtshq',
+  projectId: 'YOUR_SANITY_PROJECT_ID',
   dataset: 'production',
 
   plugins: [structureTool({structure: myStructure}), visionTool()],

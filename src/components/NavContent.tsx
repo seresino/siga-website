@@ -44,7 +44,7 @@ export const NavContent = ({
               to="/"
               className="text-white text-xl text-left font-bold block hover:italic transition-colors"
             >
-              ruby seresin
+              Client Name
             </Link>
           </CardContent>
         </Card>
@@ -120,7 +120,7 @@ export const NavContent = ({
           </Link>
 
           <a
-            href="https://instagram.com/rubyseresin"
+            href="https://instagram.com/YOUR_INSTAGRAM"
             target="_blank"
             rel="noopener noreferrer"
             className={cn(
@@ -131,7 +131,7 @@ export const NavContent = ({
             Instagram
           </a>
           <a
-            href="mailto:ruby.seresin@gmail.com"
+            href="mailto:YOUR_EMAIL@example.com"
             className={cn(
               "block text-sm hover:italic transition-colors",
               textColor
