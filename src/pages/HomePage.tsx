@@ -69,18 +69,17 @@ export default function HomePage() {
       </div>
 
       {/* Centered Logo - Stretches to fill viewport like hungryman.com */}
-      <img
-        src={logoUrl || "/logo.svg"}
-        alt={primaryLogo?.name || settings?.siteName || "Logo"}
-        className="absolute inset-0 z-10"
-        style={{
-          width: '100vw',
-          height: '100vh',
-          minWidth: '100%',
-          minHeight: '100%',
-          objectFit: 'fill',
-        }}
-      />
+      <div className="absolute inset-0 z-10 p-8 md:p-12">
+        <img
+          src={"/logo-thin.svg"}
+          alt={primaryLogo?.name || settings?.siteName || "Logo"}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "fill",
+          }}
+        />
+      </div>
     </div>
   );
 }
