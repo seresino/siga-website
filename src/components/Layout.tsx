@@ -5,9 +5,10 @@ import { MobileSidebar } from "@/components/MobileSidebar";
 export default function Layout() {
   return (
     <div className="min-h-screen">
-      {/* Render the two different sidebars */}
-      <MobileSidebar />
-      <DesktopSidebar />
+      {/* NAVIGATION HIDDEN FOR TEMPORARY LANDING PAGE
+          Uncomment these when ready to show projects/navigation */}
+      {/* <MobileSidebar /> */}
+      {/* <DesktopSidebar /> */}
 
       <main className="">
         <Outlet />
