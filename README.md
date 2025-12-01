@@ -16,7 +16,7 @@ A modern, responsive portfolio website built with **React**, **TypeScript**, **V
 Before you begin, ensure you have:
 
 - **Node.js** (v18 or higher)
-- **npm** or **yarn**
+- **pnpm** (Install with `npm install -g pnpm` if not already installed)
 - A **Sanity.io** account (free tier available)
 
 ## 🛠️ Setup Instructions
@@ -31,13 +31,13 @@ cd /path/to/your/projects
 
 #### Main Application
 ```bash
-npm install
+pnpm install
 ```
 
 #### Sanity Studio (CMS)
 ```bash
 cd sanity-studio
-npm install
+pnpm install
 cd ..
 ```
 
@@ -89,7 +89,7 @@ Update the following placeholders throughout the codebase:
 
 ```bash
 cd sanity-studio
-npm run deploy
+pnpm run deploy
 ```
 
 This will give you a URL like `https://your-project.sanity.studio` where you can manage content.
@@ -117,21 +117,21 @@ This will give you a URL like `https://your-project.sanity.studio` where you can
 
 #### Start the main application:
 ```bash
-npm run dev
+pnpm dev
 ```
 Visit `http://localhost:5173`
 
 #### Start Sanity Studio (optional, for local CMS development):
 ```bash
 cd sanity-studio
-npm run dev
+pnpm dev
 ```
 Visit `http://localhost:3333`
 
 ### Build for Production
 
 ```bash
-npm run build
+pnpm build
 ```
 
 The build output will be in the `dist` folder.
@@ -139,7 +139,7 @@ The build output will be in the `dist` folder.
 ### Preview Production Build
 
 ```bash
-npm run preview
+pnpm preview
 ```
 
 ## 📁 Project Structure
@@ -200,7 +200,7 @@ Project types (Film/Code) can be customized in `sanity-studio/schemaTypes/projec
 1. Push your code to GitHub
 2. Import project in Netlify
 3. Add environment variable: `VITE_SANITY_PROJECT_ID`
-4. Build command: `npm run build`
+4. Build command: `pnpm build`
 5. Publish directory: `dist`
 
 ## 📝 License

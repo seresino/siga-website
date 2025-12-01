@@ -4,7 +4,7 @@
 
 - [ ] Create Sanity.io account at https://www.sanity.io/
 - [ ] Create new Sanity project and note the Project ID
-- [ ] Install dependencies: `npm install` (root) and `cd sanity-studio && npm install`
+- [ ] Install dependencies: `pnpm install` (root) and `cd sanity-studio && pnpm install`
 
 ## ✅ Configuration Files to Update
 
@@ -29,7 +29,7 @@
 
 ## ✅ Content Setup in Sanity
 
-- [ ] Deploy Sanity Studio: `cd sanity-studio && npm run deploy`
+- [ ] Deploy Sanity Studio: `cd sanity-studio && pnpm run deploy`
 - [ ] Access your Sanity Studio at the provided URL
 - [ ] Create "About Page" content:
   - [ ] Add title
@@ -49,7 +49,7 @@
 
 ## ✅ Testing
 
-- [ ] Run development server: `npm run dev`
+- [ ] Run development server: `pnpm dev`
 - [ ] Check homepage displays projects correctly
 - [ ] Test project page navigation
 - [ ] Verify about page content
@@ -77,8 +77,8 @@
 
 - If projects don't appear: Check Sanity Studio for published projects
 - If images don't load: Verify Sanity Project ID is correct in all files
-- If build fails: Run `npm install` again and check for errors
-- TypeScript errors: These are expected until `npm install` is run
+- If build fails: Run `pnpm install` again and check for errors
+- TypeScript errors: These are expected until `pnpm install` is run
 
 ## ✨ You're Done!
 
