@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { client, siteSettingsQuery, getLogoUrl } from "@/lib/sanity";
+import { client, siteSettingsQuery } from "@/lib/sanity";
 import type { SiteSettings } from "@/lib/sanity-types";
 
 export default function HomePage() {
@@ -16,10 +16,6 @@ export default function HomePage() {
     }
     fetchSettings();
   }, []);
-
-  // Get primary logo (first one in array)
-  const primaryLogo = settings?.logos?.[0];
-  const logoUrl = primaryLogo ? getLogoUrl(primaryLogo.file) : null;
 
   // Extract Vimeo video ID from URL
   const getVimeoId = (url: string | undefined): string | null => {
@@ -72,7 +68,7 @@ export default function HomePage() {
       <div className="absolute inset-0 z-10 p-8 md:p-12">
         <img
           src={"/logo-thin.svg"}
-          alt={primaryLogo?.name || settings?.siteName || "Logo"}
+          alt={settings?.siteName || "Logo"}
           style={{
             width: "100%",
             height: "100%",
