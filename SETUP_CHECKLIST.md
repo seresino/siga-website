@@ -10,34 +10,37 @@
 
 ### Sanity Project ID (Replace `YOUR_SANITY_PROJECT_ID` with actual ID)
 
+**Sanity Studio files (required by Sanity CLI):**
 - [ ] `sanity-studio/sanity.config.ts` - line 11
 - [ ] `sanity-studio/sanity.cli.ts` - line 5
-- [ ] `src/sanityClient.ts` - line 4
-- [ ] Create `.env.local` file with: `VITE_SANITY_PROJECT_ID="your_actual_project_id"`
+
+**Frontend app (uses environment variable):**
+- [ ] Create `.env.local` file in root with: `VITE_SANITY_PROJECT_ID="your_actual_project_id"`
+
+Note: The frontend app reads from `.env.local` via `src/lib/sanity.ts` - no other files need updating!
 
 ### Client Branding
 
-- [ ] `src/components/NavContent.tsx` - line 47: Replace "Client Name" with actual client name
-- [ ] `src/components/MobileSidebar.tsx` - line 21: Replace "Client Name" with actual client name
-- [ ] `index.html` - line 17: Update page title
+- [ ] `index.html` - line 17: Update page title (optional - can also use siteName from Sanity)
 - [ ] `public/favicon.svg` - Replace with client's logo/favicon
 
-### Contact Information
-
-- [ ] `src/components/NavContent.tsx` - line 123: Update Instagram URL (or remove if not needed)
-- [ ] `src/components/NavContent.tsx` - line 134: Update email address
+Note: Client name, email, and Instagram are now managed in Sanity CMS via "Site Settings" - no code changes needed!
 
 ## ✅ Content Setup in Sanity
 
 - [ ] Deploy Sanity Studio: `cd sanity-studio && pnpm run deploy`
 - [ ] Access your Sanity Studio at the provided URL
-- [ ] Create "About Page" content:
-  - [ ] Add title
-  - [ ] Upload profile image
-  - [ ] Write bio content
-  - [ ] Add email
-  - [ ] Add Instagram URL (optional)
-- [ ] Create Projects:
+- [ ] Configure "Site Settings" (all site-wide content in one place):
+  - [ ] Add site name (displays in navigation)
+  - [ ] Add Vimeo video reel URL (for landing page background - e.g., https://vimeo.com/123456789)
+  - [ ] Upload logo variations (up to 3 - SVG recommended) - first one displays on landing page
+  - [ ] Add contact email (for navigation & about page) - optional for now
+  - [ ] Add Instagram URL (for navigation & about page) - optional for now
+  - [ ] Upload favicon (optional - can also use local /public/favicon.svg)
+  - [ ] Add About page title - optional for now
+  - [ ] Upload profile image - optional for now
+  - [ ] Write About page bio content - optional for now
+- [ ] Create Projects (OPTIONAL - site currently shows landing page only):
   - [ ] Add project titles
   - [ ] Generate slugs
   - [ ] Select project types (film/code)

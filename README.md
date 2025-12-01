@@ -51,21 +51,18 @@ cd ..
 
 #### Configure Sanity
 
-Update the following files with your Sanity project ID:
+**Sanity Studio Configuration Files:**
 
-**`sanity-studio/sanity.config.ts`**
+These files are used by Sanity's CLI and need the project ID hardcoded:
+
+**`sanity-studio/sanity.config.ts`** (line 11)
 ```typescript
-projectId: 'YOUR_SANITY_PROJECT_ID', // Replace this
+projectId: 'YOUR_SANITY_PROJECT_ID', // Replace with your actual project ID
 ```
 
-**`sanity-studio/sanity.cli.ts`**
+**`sanity-studio/sanity.cli.ts`** (line 5)
 ```typescript
-projectId: 'YOUR_SANITY_PROJECT_ID', // Replace this
-```
-
-**`src/sanityClient.ts`**
-```typescript
-projectId: "YOUR_SANITY_PROJECT_ID", // Replace this
+projectId: 'YOUR_SANITY_PROJECT_ID', // Replace with your actual project ID
 ```
 
 ### 4. Create Environment Variables
@@ -76,14 +73,14 @@ Create a `.env.local` file in the root directory:
 VITE_SANITY_PROJECT_ID="YOUR_SANITY_PROJECT_ID"
 ```
 
-### 5. Customize Content
+**Note:** The frontend React app (`src/lib/sanity.ts`) reads the project ID from this environment variable. Only the Sanity Studio files need the ID hardcoded since they're used by Sanity's CLI tools.
 
-Update the following placeholders throughout the codebase:
+### 5. Customize Branding (Optional)
 
-- **Client Name**: Replace "Client Name" in `src/components/NavContent.tsx` and `src/components/MobileSidebar.tsx`
-- **Contact Info**: Update email and Instagram links in `src/components/NavContent.tsx`
-- **Page Title**: Update in `index.html`
+- **Page Title**: Update in `index.html` (can also be set in Sanity Site Settings)
 - **Favicon**: Replace `public/favicon.svg` with your client's logo
+
+**Note:** Client name, email, and Instagram are now managed through Sanity CMS in "Site Settings" - no code changes needed!
 
 ### 6. Deploy Sanity Studio
 
@@ -97,12 +94,15 @@ This will give you a URL like `https://your-project.sanity.studio` where you can
 ### 7. Add Content in Sanity
 
 1. Go to your deployed Sanity Studio
-2. Create an **About Page** with:
-   - Title
+2. Configure **Site Settings** (all site-wide content in one place):
+   - Site name (displays in navigation)
+   - Contact email (for navigation & about page)
+   - Instagram URL (for navigation & about page)
+   - Logo variations (up to 3 - SVG recommended for scalability)
+   - Favicon (optional - can also use local `/public/favicon.svg`)
+   - About page title
    - Profile image
-   - Content (bio)
-   - Email
-   - Instagram URL
+   - About page bio content
 3. Add **Projects** with:
    - Title and slug
    - Project type (film or code)
@@ -176,10 +176,16 @@ pnpm preview
 - TailwindCSS config: Uses Tailwind 4 with CSS variables
 - Color scheme: Defined in `src/index.css` (currently black & white theme)
 
+### Logos & Branding
+
+- **Logo Storage**: Upload up to 3 logo variations (SVG recommended) in Sanity Site Settings
+- **Usage Guide**: See `LOGO_USAGE.md` for code examples on how to access and display logos
+- **Favicon**: Can be managed in Sanity or kept local in `/public/favicon.svg` (local recommended for performance)
+
 ### Content Schema
 
 Modify content types in `sanity-studio/schemaTypes/`:
-- `about.ts` - About page structure
+- `siteSettings.ts` - Global site settings (includes navigation & about page content, logos, favicon)
 - `project.ts` - Project structure
 
 ### Navigation
