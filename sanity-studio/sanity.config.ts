@@ -8,7 +8,7 @@ export default defineConfig({
   name: 'default',
   title: 'Client Website',
 
-  projectId: 'YOUR_SANITY_PROJECT_ID',
+  projectId: 'z0tledm9',
   dataset: 'production',
 
   plugins: [structureTool({structure: myStructure}), visionTool()],
