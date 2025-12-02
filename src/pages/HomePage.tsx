@@ -28,10 +28,10 @@ export default function HomePage() {
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
-      {/* Video Background */}
+      {/* Video or Placeholder Background */}
       <div className="absolute inset-0 z-0">
-        {/* Option 1: Vimeo Embed - ID from Sanity Site Settings */}
-        {vimeoId && (
+        {vimeoId ? (
+          // Vimeo video background when a reel URL is configured in Site Settings
           <iframe
             src={`https://player.vimeo.com/video/${vimeoId}?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1`}
             className="absolute top-1/2 left-1/2 w-[100vw] h-[100vh] min-w-full min-h-full -translate-x-1/2 -translate-y-1/2"
@@ -44,6 +44,13 @@ export default function HomePage() {
             frameBorder="0"
             allow="autoplay; fullscreen"
             title="Background Video"
+          />
+        ) : (
+          // Static placeholder image background when no video reel is set
+          <img
+            src="/home-placeholder.png"
+            alt="Background placeholder"
+            className="absolute inset-0 w-full h-full object-cover"
           />
         )}
 
