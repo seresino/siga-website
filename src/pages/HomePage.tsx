@@ -27,18 +27,18 @@ export default function HomePage() {
   const vimeoId = getVimeoId(settings?.videoReelUrl);
 
   return (
-    <div className="relative w-full h-screen overflow-hidden">
+    <div className="relative w-full h-[100svh] overflow-hidden">
       {/* Video or Placeholder Background */}
       <div className="absolute inset-0 z-0">
         {vimeoId ? (
           // Vimeo video background when a reel URL is configured in Site Settings
           <iframe
             src={`https://player.vimeo.com/video/${vimeoId}?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1`}
-            className="absolute top-1/2 left-1/2 w-[100vw] h-[100vh] min-w-full min-h-full -translate-x-1/2 -translate-y-1/2"
+            className="absolute top-1/2 left-1/2 w-[100vw] h-[100svh] min-w-full min-h-full -translate-x-1/2 -translate-y-1/2"
             style={{
               width: "100vw",
               height: "56.25vw", // 16:9 aspect ratio
-              minHeight: "100vh",
+              minHeight: "100svh",
               minWidth: "177.77vh", // 16:9 aspect ratio
             }}
             frameBorder="0"
