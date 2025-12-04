@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { client, siteSettingsQuery } from "@/lib/sanity";
 import type { SiteSettings } from "@/lib/sanity-types";
 
 export default function HomePage() {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     async function fetchSettings() {
@@ -17,15 +18,39 @@ export default function HomePage() {
     fetchSettings();
   }, []);
 
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Try to trigger autoplay on mobile once the video is ready
+    const tryPlay = () => {
+      video.play().catch(() => {
+        // Ignore autoplay errors; browser may still show poster with play button
+      });
+    };
+
+    if (video.readyState >= 2) {
+      tryPlay();
+    } else {
+      video.addEventListener("canplay", tryPlay, { once: true });
+    }
+
+    return () => {
+      video.removeEventListener("canplay", tryPlay as any);
+    };
+  }, []);
+
   return (
     <div className="relative w-full h-[100svh] overflow-hidden">
       {/* HTML5 Video Background (from /public/video) */}
       <div className="absolute inset-0 z-0">
         <video
+          ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
+          preload="auto"
           poster="/home-placeholder.png"
           className="absolute top-1/2 left-1/2 w-auto h-auto min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover"
         >
