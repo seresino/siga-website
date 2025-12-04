@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { client, siteSettingsQuery, urlFor, getLogoUrl } from "@/lib/sanity";
 import type { SiteSettings } from "@/lib/sanity-types";
 import { Mail, Instagram } from "lucide-react";
@@ -66,19 +67,27 @@ export default function AboutPage() {
           </div>
         )}
 
-        {logo3Url ? (
-          <div className="mb-6 md:mb-8">
+        <Link
+          to="/"
+          aria-label={
+            settings.aboutTitle
+              ? `${settings.aboutTitle} – Back to homepage`
+              : "Back to homepage"
+          }
+          className="block mb-6 md:mb-8"
+        >
+          {logo3Url ? (
             <img
               src={logo3Url}
               alt={logo3?.name || settings.aboutTitle}
               className="mx-auto w-full max-w-[428px] h-auto"
             />
-          </div>
-        ) : (
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-light mb-6 md:mb-8 text-white text-balance">
-            {settings.aboutTitle}
-          </h1>
-        )}
+          ) : (
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-white text-balance">
+              {settings.aboutTitle}
+            </h1>
+          )}
+        </Link>
 
         {settings.aboutContent && (
           <div className="md:space-y-2 md:text-lg text-white/90 text-sm">
