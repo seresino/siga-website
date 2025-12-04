@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { client, siteSettingsQuery, urlFor } from "@/lib/sanity";
+import { client, siteSettingsQuery, urlFor, getLogoUrl } from "@/lib/sanity";
 import type { SiteSettings } from "@/lib/sanity-types";
 import { Mail, Instagram } from "lucide-react";
 
@@ -33,9 +33,12 @@ export default function AboutPage() {
     return (
       <div className="min-h-screen flex items-center justify-center px-4 md:px-8">
         <div className="text-center text-white">
-          <h1 className="text-xl md:text-2xl mb-4">About Page Not Configured</h1>
+          <h1 className="text-xl md:text-2xl mb-4">
+            About Page Not Configured
+          </h1>
           <p className="text-sm md:text-base">
-            Please configure the About page content in 'Site Settings' in your Sanity CMS.
+            Please configure the About page content in 'Site Settings' in your
+            Sanity CMS.
           </p>
         </div>
       </div>
@@ -45,6 +48,10 @@ export default function AboutPage() {
   const profileImageUrl = settings.profileImage?.asset?._ref
     ? urlFor(settings.profileImage).width(400).height(400).url()
     : null;
+
+  // Logo #3 (index 2) from Site Settings logos array
+  const logo3 = settings.logos?.[2];
+  const logo3Url = logo3?.file ? getLogoUrl(logo3.file) : null;
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 md:px-8">
@@ -59,9 +66,19 @@ export default function AboutPage() {
           </div>
         )}
 
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-light mb-6 md:mb-8 text-white text-balance">
-          {settings.aboutTitle}
-        </h1>
+        {logo3Url ? (
+          <div className="mb-6 md:mb-8">
+            <img
+              src={logo3Url}
+              alt={logo3?.name || settings.aboutTitle}
+              className="mx-auto w-full max-w-[428px] h-auto"
+            />
+          </div>
+        ) : (
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-light mb-6 md:mb-8 text-white text-balance">
+            {settings.aboutTitle}
+          </h1>
+        )}
 
         {settings.aboutContent && (
           <div className="md:space-y-2 md:text-lg text-white/90 text-sm">
@@ -72,7 +89,7 @@ export default function AboutPage() {
         )}
 
         {(settings.email || settings.instagram) && (
-          <div className="mt-8 md:mt-12 flex flex-col sm:flex-row justify-center gap-4 md:gap-6">
+          <div className="mt-8 md:mt-12 flex flex-col sm:flex-row gap-4 md:gap-6">
             {settings.email && (
               <a
                 href={`mailto:${settings.email}`}

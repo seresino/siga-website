@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { client, siteSettingsQuery } from "@/lib/sanity";
 import type { SiteSettings } from "@/lib/sanity-types";
 
 export default function HomePage() {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchSettings() {
@@ -70,15 +72,36 @@ export default function HomePage() {
 
       {/* Centered Logo - Stretches to fill viewport like hungryman.com */}
       <div className="absolute inset-0 z-10 p-8 md:p-12">
-        <img
-          src={"/logo-thin.svg"}
-          alt={settings?.siteName || "Logo"}
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "fill",
-          }}
-        />
+        <svg
+          viewBox="0 0 428 146"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+          className="w-full h-full"
+          role="img"
+          aria-label={
+            settings?.siteName
+              ? `${settings.siteName} – About page`
+              : "About page"
+          }
+        >
+          <path
+            d="M1 144.4V116.8L42.8 70.6L2.6 30.6V1.60002L110.6 1.80001V32.8L68.6 32.6C66.6 32.6 63.9333 32.6 60.6 32.6C57.2667 32.4667 53.6 32.1334 49.6 31.6L80 63.8V71.6L43 114.2C47.2667 113.8 52.0667 113.533 57.4 113.4C62.8667 113.133 68 113 72.8 113H112V144.4H1ZM198.27 144.4H123.87V122.4L141.67 115.6V30.2L123.87 23.6V1.60002H198.27V23.6L180.47 30.2V115.6L198.27 122.4V144.4ZM220.556 144.4V1.60002H300.956V32.6H258.556V144.4H220.556ZM383.805 144.4L376.805 117.6H330.405L323.205 144.4H280.805L327.405 1.00002H378.805L426.005 144.4H383.805ZM362.605 62.6C361.938 60.0667 361.005 56.4667 359.805 51.8C358.605 47 357.405 42.0667 356.205 37C355.005 31.9334 354.071 27.8 353.405 24.6C352.871 27.8 352.005 31.8 350.805 36.6C349.738 41.4 348.605 46.1334 347.405 50.8C346.338 55.4667 345.405 59.4 344.605 62.6L338.405 86H368.805L362.605 62.6Z"
+            className="transition-colors duration-300 fill-transparent stroke-white hover:fill-white/30 cursor-pointer focus:outline-none focus-visible:outline-none"
+            strokeWidth={0.5}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            role="link"
+            tabIndex={0}
+            onClick={() => navigate("/about")}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                navigate("/about");
+              }
+            }}
+            style={{ outline: "none" }}
+          />
+        </svg>
       </div>
     </div>
   );
