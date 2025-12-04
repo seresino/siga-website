@@ -26,10 +26,17 @@ export default function HomePage() {
           loop
           muted
           playsInline
+          poster="/home-placeholder.png"
           className="absolute top-1/2 left-1/2 w-auto h-auto min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover"
         >
           <source src="/video/reel.mp4" type="video/mp4" />
           <source src="/video/reel.webm" type="video/webm" />
+          {/* Fallback image if video cannot be played */}
+          <img
+            src="/home-placeholder.png"
+            alt="Background placeholder"
+            className="w-full h-full object-cover"
+          />
         </video>
 
         {/* Dark overlay for better logo visibility */}
