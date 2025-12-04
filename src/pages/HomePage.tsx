@@ -17,44 +17,10 @@ export default function HomePage() {
     fetchSettings();
   }, []);
 
-  // Extract Vimeo video ID from URL
-  const getVimeoId = (url: string | undefined): string | null => {
-    if (!url) return null;
-    const match = url.match(/vimeo\.com\/(\d+)/);
-    return match ? match[1] : null;
-  };
-
-  const vimeoId = getVimeoId(settings?.videoReelUrl);
-
   return (
     <div className="relative w-full h-[100svh] overflow-hidden">
-      {/* Video or Placeholder Background */}
+      {/* HTML5 Video Background (from /public/video) */}
       <div className="absolute inset-0 z-0">
-        {vimeoId ? (
-          // Vimeo video background when a reel URL is configured in Site Settings
-          <iframe
-            src={`https://player.vimeo.com/video/${vimeoId}?background=1&autoplay=1&loop=1&byline=0&title=0&muted=1`}
-            className="absolute top-1/2 left-1/2 w-[100vw] h-[100svh] min-w-full min-h-full -translate-x-1/2 -translate-y-1/2"
-            style={{
-              width: "100vw",
-              height: "56.25vw", // 16:9 aspect ratio
-              minHeight: "100svh",
-              minWidth: "177.77vh", // 16:9 aspect ratio
-            }}
-            frameBorder="0"
-            allow="autoplay; fullscreen"
-            title="Background Video"
-          />
-        ) : (
-          // Static placeholder image background when no video reel is set
-          <img
-            src="/home-placeholder.png"
-            alt="Background placeholder"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-        )}
-
-        {/* Option 2: HTML5 Video (Better Performance) - Uncomment and add video file to /public
         <video
           autoPlay
           loop
@@ -65,7 +31,6 @@ export default function HomePage() {
           <source src="/video/reel.mp4" type="video/mp4" />
           <source src="/video/reel.webm" type="video/webm" />
         </video>
-        */}
 
         {/* Dark overlay for better logo visibility */}
         <div className="absolute inset-0 bg-black/30" />
