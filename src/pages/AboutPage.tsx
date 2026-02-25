@@ -90,7 +90,7 @@ export default function AboutPage() {
         </Link>
 
         {settings.aboutContent && (
-          <div className="space-y-2 text-lg text-white/90 text-sm">
+          <div className="space-y-2 text-center text-lg text-white/90 text-sm">
             {settings.aboutContent.split("\n\n").map((paragraph, index) => (
               <p key={index}>{paragraph}</p>
             ))}
