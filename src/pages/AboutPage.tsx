@@ -55,7 +55,7 @@ export default function AboutPage() {
   const logo1Url = logo1?.file ? getLogoUrl(logo1.file) : null;
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 md:px-8">
+    <div className="min-h-svh flex items-center justify-center px-4 md:px-8">
       <div className="max-w-xl">
         {profileImageUrl && (
           <div className="mb-6 md:mb-8">
