@@ -74,7 +74,7 @@ export default function AboutPage() {
               ? `${settings.aboutTitle} – Back to homepage`
               : "Back to homepage"
           }
-          className="block mb-6 md:mb-8"
+          className="block mb-12"
         >
           {logo1Url ? (
             <img
@@ -90,7 +90,7 @@ export default function AboutPage() {
         </Link>
 
         {settings.aboutContent && (
-          <div className="md:space-y-2 md:text-lg text-white/90 text-sm">
+          <div className="space-y-2 text-lg text-white/90 text-sm">
             {settings.aboutContent.split("\n\n").map((paragraph, index) => (
               <p key={index}>{paragraph}</p>
             ))}
@@ -98,7 +98,7 @@ export default function AboutPage() {
         )}
 
         {(settings.email || settings.instagram) && (
-          <div className="mt-8 md:mt-12 flex flex-col sm:flex-row gap-4 md:gap-6">
+          <div className="mt-8 flex flex-row gap-4 justify-center">
             {settings.email && (
               <a
                 href={`mailto:${settings.email}`}
