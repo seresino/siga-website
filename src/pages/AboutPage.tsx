@@ -51,8 +51,8 @@ export default function AboutPage() {
     : null;
 
   // Logo #3 (index 2) from Site Settings logos array
-  const logo3 = settings.logos?.[2];
-  const logo3Url = logo3?.file ? getLogoUrl(logo3.file) : null;
+  const logo1 = settings.logos?.[0];
+  const logo1Url = logo1?.file ? getLogoUrl(logo1.file) : null;
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 md:px-8">
@@ -76,10 +76,10 @@ export default function AboutPage() {
           }
           className="block mb-6 md:mb-8"
         >
-          {logo3Url ? (
+          {logo1Url ? (
             <img
-              src={logo3Url}
-              alt={logo3?.name || settings.aboutTitle}
+              src={logo1Url}
+              alt={logo1?.name || settings.aboutTitle}
               className="mx-auto w-full max-w-[428px] h-auto"
             />
           ) : (
