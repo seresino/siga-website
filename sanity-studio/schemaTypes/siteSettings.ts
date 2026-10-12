@@ -28,15 +28,17 @@ export default defineType({
       name: 'videoReelUrl',
       title: 'Video Reel URL (Vimeo)',
       type: 'url',
-      description: 'Full Vimeo video URL (e.g., https://vimeo.com/123456789). Used for homepage background video.',
+      description:
+        'Full Vimeo video URL (e.g., https://vimeo.com/123456789). Used for homepage background video.',
     }),
-    
+
     // Branding Assets
     defineField({
       name: 'logos',
       title: 'Logo Variations',
       type: 'array',
-      description: 'Upload up to 3 logo variations (e.g., light version, dark version, icon only). SVG format recommended.',
+      description:
+        'Upload up to 3 logo variations (e.g., light version, dark version, icon only). SVG format recommended.',
       validation: (Rule) => Rule.max(3),
       of: [
         {
@@ -81,12 +83,13 @@ export default defineType({
       name: 'favicon',
       title: 'Favicon',
       type: 'image',
-      description: 'Site favicon (will be used if you want dynamic favicon). Recommended: 32x32 or 64x64 PNG/ICO. Note: For best performance, you can also keep favicon.svg in /public folder.',
+      description:
+        'Site favicon (will be used if you want dynamic favicon). Recommended: 32x32 or 64x64 PNG/ICO. Note: For best performance, you can also keep favicon.svg in /public folder.',
       options: {
         accept: 'image/png,image/x-icon,image/svg+xml',
       },
     }),
-    
+
     // About Page Content
     defineField({
       name: 'aboutTitle',
@@ -114,7 +117,64 @@ export default defineType({
       name: 'aboutContent',
       title: 'About Page Content',
       type: 'text',
-      description: 'The main biography or content for the about page. Separate paragraphs with a double line break.',
+      description:
+        'The main biography or content for the about page. Separate paragraphs with a double line break.',
+    }),
+
+    // Team Section
+    defineField({
+      name: 'team',
+      title: 'Team Members',
+      type: 'array',
+      description: 'Displayed on the About page below the bio. Drag to reorder.',
+      of: [
+        {
+          type: 'object',
+          name: 'teamMember',
+          title: 'Team Member',
+          fields: [
+            {
+              name: 'name',
+              type: 'string',
+              title: 'Name',
+              validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'role',
+              type: 'string',
+              title: 'Role',
+              description: 'E.g., "Director & Developer"',
+            },
+            {
+              name: 'photo',
+              type: 'image',
+              title: 'Photo',
+              options: {hotspot: true},
+              fields: [
+                {
+                  name: 'alt',
+                  type: 'string',
+                  title: 'Alternative Text',
+                },
+              ],
+            },
+            {
+              name: 'bio',
+              type: 'array',
+              title: 'Bio',
+              description: 'Shown on hover. Supports links and formatting.',
+              of: [{type: 'block'}],
+            },
+          ],
+          preview: {
+            select: {
+              title: 'name',
+              subtitle: 'role',
+              media: 'photo',
+            },
+          },
+        },
+      ],
     }),
   ],
 })

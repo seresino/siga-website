@@ -1,31 +1,20 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { client, projectsQuery, siteSettingsQuery } from "@/lib/sanity";
-import type { Project, SiteSettings } from "@/lib/sanity-types";
+import { client, projectsQuery } from "@/lib/sanity";
+import type { Project } from "@/lib/sanity-types";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
 
-export const NavContent = ({
-  onLinkClick,
-  isMobile,
-}: {
-  onLinkClick?: () => void;
-  isMobile?: boolean;
-}) => {
+export const NavContent = ({ onLinkClick }: { onLinkClick?: () => void }) => {
   const { pathname } = useLocation();
   const [projects, setProjects] = useState<Project[]>([]);
-  const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const [fetchedProjects, fetchedSettings] = await Promise.all([
-          client.fetch<Project[]>(projectsQuery),
-          client.fetch<SiteSettings>(siteSettingsQuery),
-        ]);
+        const fetchedProjects = await client.fetch<Project[]>(projectsQuery);
         setProjects(fetchedProjects || []);
-        setSiteSettings(fetchedSettings);
       } catch (error) {
         console.error("Error fetching navigation data:", error);
       }
@@ -33,121 +22,30 @@ export const NavContent = ({
     fetchData();
   }, []);
 
-  const filmProjects = projects.filter((p) => p.projectType === "film");
-  const codeProjects = projects.filter((p) => p.projectType === "code");
-
-  const cardClassName = "rounded-md bg-black text-white";
-  const textColor = "text-white";
-  const separatorColor = "bg-white";
+  if (projects.length === 0) return null;
 
   return (
-    <nav className="flex flex-col min-h-full space-y-2 py-4">
-      {!isMobile && (
-        <Card className={cardClassName}>
-          <CardContent>
-            <Link
-              to="/"
-              className="text-white text-xl text-left font-bold block hover:italic transition-colors"
-            >
-              {siteSettings?.siteName || "Client Name"}
-            </Link>
-          </CardContent>
-        </Card>
-      )}
-      {filmProjects.length > 0 && (
-        <Card className={cardClassName}>
-          <CardContent>
-            <h3 className="font-medium text-sm tracking-wide">Film</h3>
-            <Separator className={cn("my-2", separatorColor)} />
-            <ul className="space-y-1.5">
-              {filmProjects.map((project) => (
-                <li key={project._id}>
-                  <Link
-                    to={`/film/${project.slug.current}`}
-                    className={cn(
-                      "block text-sm hover:italic transition-colors",
-                      textColor,
-                      pathname === `/film/${project.slug.current}` &&
-                        "font-medium"
-                    )}
-                    onClick={onLinkClick}
-                  >
-                    {project.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
-      )}
-
-      {codeProjects.length > 0 && (
-        <Card className={cardClassName}>
-          <CardContent>
-            <h3 className="font-medium text-sm tracking-wide">Code</h3>
-            <Separator className={cn("my-2", separatorColor)} />
-            <ul className="space-y-1.5">
-              {codeProjects.map((project) => (
-                <li key={project._id}>
-                  <Link
-                    to={`/code/${project.slug.current}`}
-                    className={cn(
-                      "block text-sm hover:italic transition-colors",
-                      textColor,
-                      pathname === `/code/${project.slug.current}` &&
-                        "font-medium"
-                    )}
-                    onClick={onLinkClick}
-                  >
-                    {project.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
-      )}
-
-      <div className="flex-1" />
-
-      <Card className={cardClassName}>
+    <nav>
+      <Card className="rounded-md bg-black text-white">
         <CardContent>
-          <Link
-            to="/about"
-            className={cn(
-              "block text-sm hover:italic transition-colors",
-              textColor,
-              pathname === "/about" && "font-medium"
-            )}
-            onClick={onLinkClick}
-          >
-            About
-          </Link>
-
-          {siteSettings?.instagram && (
-            <a
-              href={siteSettings.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(
-                "block text-sm hover:italic transition-colors",
-                textColor
-              )}
-            >
-              Instagram
-            </a>
-          )}
-          {siteSettings?.email && (
-            <a
-              href={`mailto:${siteSettings.email}`}
-              className={cn(
-                "block text-sm hover:italic transition-colors",
-                textColor
-              )}
-            >
-              Email
-            </a>
-          )}
+          <h3 className="font-medium text-sm tracking-wide">Projects</h3>
+          <Separator className="my-2 bg-white" />
+          <ul className="space-y-1.5">
+            {projects.map((project) => (
+              <li key={project._id}>
+                <Link
+                  to={`/${project.slug.current}`}
+                  className={cn(
+                    "block text-sm text-white hover:italic transition-colors",
+                    pathname === `/${project.slug.current}` && "font-medium",
+                  )}
+                  onClick={onLinkClick}
+                >
+                  {project.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </CardContent>
       </Card>
     </nav>

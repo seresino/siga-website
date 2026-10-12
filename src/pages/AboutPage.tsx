@@ -1,8 +1,53 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { client, siteSettingsQuery, urlFor, getLogoUrl } from "@/lib/sanity";
-import type { SiteSettings } from "@/lib/sanity-types";
-import { Mail, Instagram } from "lucide-react";
+import { client, siteSettingsQuery, urlFor } from "@/lib/sanity";
+import type { SiteSettings, TeamMember } from "@/lib/sanity-types";
+import { PortableText } from "@portabletext/react";
+import { Instagram } from "lucide-react";
+
+const bioComponents = {
+  marks: {
+    link: ({ value, children }: any) => (
+      <a
+        href={value?.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="underline underline-offset-2 hover:text-white"
+      >
+        {children}
+      </a>
+    ),
+  },
+};
+
+function TeamCard({ member }: { member: TeamMember }) {
+  const photoUrl = member.photo?.asset?._ref
+    ? urlFor(member.photo).width(480).height(640).url()
+    : null;
+
+  return (
+    <div className="group outline-none" tabIndex={0}>
+      <div className="relative aspect-[3/4] overflow-hidden rounded-md bg-white/5">
+        {photoUrl && (
+          <img
+            src={photoUrl}
+            alt={member.photo?.alt || member.name}
+            className="h-full w-full object-cover"
+          />
+        )}
+        {member.bio && member.bio.length > 0 && (
+          <div className="absolute inset-0 translate-y-full overflow-y-auto bg-black/75 p-4 backdrop-blur-sm transition-transform duration-300 ease-out group-hover:translate-y-0 group-focus-within:translate-y-0">
+            <div className="space-y-2 text-xs leading-relaxed text-white/85">
+              <PortableText value={member.bio} components={bioComponents} />
+            </div>
+          </div>
+        )}
+      </div>
+      <h3 className="mt-3 text-sm font-medium text-white">{member.name}</h3>
+      {member.role && <p className="text-xs text-white/60">{member.role}</p>}
+    </div>
+  );
+}
 
 export default function AboutPage() {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
@@ -50,13 +95,9 @@ export default function AboutPage() {
     ? urlFor(settings.profileImage).width(400).height(400).url()
     : null;
 
-  // Logo #3 (index 2) from Site Settings logos array
-  const logo1 = settings.logos?.[0];
-  const logo1Url = logo1?.file ? getLogoUrl(logo1.file) : null;
-
   return (
-    <div className="min-h-svh flex items-center justify-center px-4 md:px-8">
-      <div className="max-w-xl">
+    <div className="px-4 md:px-8">
+      <div className="max-w-xl mx-auto min-h-svh flex flex-col justify-center py-16">
         {profileImageUrl && (
           <div className="mb-6 md:mb-8">
             <img
@@ -75,19 +116,7 @@ export default function AboutPage() {
               : "Back to homepage"
           }
           className="block mb-12"
-        >
-          {logo1Url ? (
-            <img
-              src={logo1Url}
-              alt={logo1?.name || settings.aboutTitle}
-              className="mx-auto w-full max-w-[428px] h-auto"
-            />
-          ) : (
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-white text-balance">
-              {settings.aboutTitle}
-            </h1>
-          )}
-        </Link>
+        ></Link>
 
         {settings.aboutContent && (
           <div className="space-y-2 text-center text-lg text-white/90 text-sm">
@@ -97,16 +126,8 @@ export default function AboutPage() {
           </div>
         )}
 
-        {(settings.email || settings.instagram) && (
+        {settings.instagram && (
           <div className="mt-8 flex flex-row gap-4 justify-center">
-            {settings.email && (
-              <a
-                href={`mailto:${settings.email}`}
-                className="text-white/70 hover:text-white transition-colors underline"
-              >
-                <Mail />
-              </a>
-            )}
             {settings.instagram && (
               <a
                 href={settings.instagram}
@@ -120,6 +141,19 @@ export default function AboutPage() {
           </div>
         )}
       </div>
+
+      {settings.team && settings.team.length > 0 && (
+        <section className="mx-auto w-full max-w-6xl pb-24">
+          <h2 className="mb-8 text-center text-2xl md:text-3xl font-light text-white">
+            Team
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+            {settings.team.map((member) => (
+              <TeamCard key={member._key} member={member} />
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

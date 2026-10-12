@@ -20,24 +20,27 @@ export default defineType({
       },
     }),
     defineField({
-      name: 'projectType',
-      title: 'Project Type',
-      type: 'string',
-      options: {
-        list: [
-          {title: 'Film', value: 'film'},
-          {title: 'Code', value: 'code'},
-        ],
-        layout: 'radio',
-      },
-    }),
-    defineField({
       name: 'coverImage',
       title: 'Cover Image',
       type: 'image',
       options: {
         hotspot: true,
       },
+    }),
+    defineField({
+      name: 'previewClips',
+      title: 'Preview Clips (Homepage Grid)',
+      type: 'array',
+      description:
+        'Short compressed loops shown in the homepage grid. Every clip you add here gets its own tile. Keep each ~3-6 seconds, MP4 or WebM, ideally under 5MB.',
+      of: [
+        {
+          type: 'file',
+          options: {
+            accept: 'video/*',
+          },
+        },
+      ],
     }),
     defineField({
       name: 'order',

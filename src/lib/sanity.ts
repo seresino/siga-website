@@ -21,16 +21,15 @@ export const projectsQuery = `*[_type == "project"] | order(order asc) {
   _id,
   title,
   slug,
-  projectType,
   coverImage,
-  order
+  order,
+  "previewClipUrls": previewClips[].asset->url
 }`;
 
 export const projectBySlugQuery = `*[_type == "project" && slug.current == $slug][0] {
   _id,
   title,
   slug,
-  projectType,
   coverImage,
   content,
   videos[],
@@ -53,7 +52,14 @@ export const siteSettingsQuery = `*[_type == "siteSettings"][0] {
   favicon,
   aboutTitle,
   profileImage,
-  aboutContent
+  aboutContent,
+  team[]{
+    _key,
+    name,
+    role,
+    photo,
+    bio
+  }
 }`;
 // Helper to get logo file URL from Sanity
 export function getLogoUrl(logoAsset: any): string | null {
@@ -63,6 +69,6 @@ export function getLogoUrl(logoAsset: any): string | null {
   // Otherwise construct the URL from the asset reference
   const ref = logoAsset._ref;
   if (!ref) return null;
-  const [_file, id, extension] = ref.split('-');
+  const [_file, id, extension] = ref.split("-");
   return `https://cdn.sanity.io/files/${client.config().projectId}/${client.config().dataset}/${id}.${extension}`;
 }

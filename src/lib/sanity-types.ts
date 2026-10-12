@@ -20,6 +20,15 @@ export interface Logo {
   };
 }
 
+// A team member shown on the About page
+export interface TeamMember {
+  _key: string;
+  name: string;
+  role?: string;
+  photo?: SanityImage;
+  bio?: any[]; // Portable Text content
+}
+
 // Site-wide settings (includes About page content)
 export interface SiteSettings {
   _id: string;
@@ -34,6 +43,7 @@ export interface SiteSettings {
   aboutTitle?: string;
   profileImage?: SanityImage;
   aboutContent?: string;
+  team?: TeamMember[];
 }
 
 // A new type for our gallery images, which include a caption
@@ -54,8 +64,8 @@ export interface Project {
   slug: {
     current: string;
   };
-  projectType: "film" | "code";
   coverImage: SanityImage;
+  previewClipUrls?: string[]; // Resolved CDN URLs for the homepage grid clips
   order: number; // Display order on homepage
   content: any[]; // Portable Text content
   videos?: ProjectVideo[]; // <-- NEW: Array of videos
