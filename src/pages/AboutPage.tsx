@@ -27,7 +27,7 @@ function TeamCard({ member }: { member: TeamMember }) {
 
   return (
     <div className="group outline-none" tabIndex={0}>
-      <div className="relative aspect-[3/4] overflow-hidden rounded-md bg-white/5">
+      <div className="relative aspect-[3/4] sm:aspect-auto sm:h-[34svh] overflow-hidden rounded-md bg-white/5">
         {photoUrl && (
           <img
             src={photoUrl}
@@ -36,15 +36,15 @@ function TeamCard({ member }: { member: TeamMember }) {
           />
         )}
         {member.bio && member.bio.length > 0 && (
-          <div className="absolute inset-0 translate-y-full overflow-y-auto bg-black/75 p-4 backdrop-blur-sm transition-transform duration-300 ease-out group-hover:translate-y-0 group-focus-within:translate-y-0">
+          <div className="absolute inset-0 translate-y-full overflow-y-auto bg-black/75 p-5 backdrop-blur-sm transition-transform duration-300 ease-out group-hover:translate-y-0 group-focus-within:translate-y-0">
             <div className="space-y-2 text-xs leading-relaxed text-white/85">
               <PortableText value={member.bio} components={bioComponents} />
             </div>
           </div>
         )}
       </div>
-      <h3 className="mt-3 text-sm font-medium text-white">{member.name}</h3>
-      {member.role && <p className="text-xs text-white/60">{member.role}</p>}
+      <h3 className="mt-3 text-base font-medium text-white">{member.name}</h3>
+      {member.role && <p className="text-sm text-white/60">{member.role}</p>}
     </div>
   );
 }
@@ -97,7 +97,7 @@ export default function AboutPage() {
 
   return (
     <div className="px-4 md:px-8">
-      <div className="max-w-xl mx-auto min-h-svh flex flex-col justify-center py-16">
+      <div className="max-w-xl mx-auto pt-16 md:pt-20 pb-4">
         {profileImageUrl && (
           <div className="mb-6 md:mb-8">
             <img
@@ -118,36 +118,41 @@ export default function AboutPage() {
           className="block mb-12"
         ></Link>
 
-        {settings.aboutContent && (
-          <div className="space-y-2 text-center text-lg text-white/90 text-sm">
-            {settings.aboutContent.split("\n\n").map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
-            ))}
-          </div>
-        )}
-
-        {settings.instagram && (
-          <div className="mt-8 flex flex-row gap-4 justify-center">
-            {settings.instagram && (
-              <a
-                href={settings.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/70 hover:text-white transition-colors underline"
-              >
-                <Instagram />
-              </a>
-            )}
-          </div>
-        )}
+        {settings.aboutContent &&
+          (!settings.team || settings.team.length === 0) && (
+            <div className="space-y-2 text-center text-lg text-white/90 text-sm">
+              {settings.aboutContent.split("\n\n").map((paragraph, index) => (
+                <p key={index}>{paragraph}</p>
+              ))}
+            </div>
+          )}
       </div>
 
       {settings.team && settings.team.length > 0 && (
-        <section className="mx-auto w-full max-w-6xl pb-24">
-          <h2 className="mb-8 text-center text-2xl md:text-3xl font-light text-white">
-            Team
-          </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+        <section className="mx-auto w-full max-w-4xl pb-24">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 md:gap-8">
+            {settings.aboutContent && (
+              <div className="col-span-2 sm:col-span-1 flex flex-col rounded-md bg-white/5 p-4 md:p-5 sm:h-[34svh]">
+                <div className="flex-1 space-y-2 overflow-y-auto text-sm leading-relaxed text-white/85">
+                  {settings.aboutContent
+                    .split("\n\n")
+                    .map((paragraph, index) => (
+                      <p key={index}>{paragraph}</p>
+                    ))}
+                </div>
+                {settings.instagram && (
+                  <a
+                    href={settings.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Instagram"
+                    className="mt-3 inline-flex text-white/60 transition-colors hover:text-white"
+                  >
+                    <Instagram className="h-5 w-5" />
+                  </a>
+                )}
+              </div>
+            )}
             {settings.team.map((member) => (
               <TeamCard key={member._key} member={member} />
             ))}

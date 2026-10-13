@@ -117,5 +117,109 @@ export default defineType({
         },
       ],
     }),
+
+    // --- "Choose" Galleries ---
+    defineField({
+      name: 'chooseGalleries',
+      title: '"Choose" Galleries',
+      type: 'array',
+      description:
+        'Switchable content galleries shown on the project page, e.g. "Choose film" (videos) or "Choose stills" (images). Add as many as you like.',
+      of: [
+        {
+          type: 'object',
+          name: 'chooseGallery',
+          title: 'Gallery',
+          fields: [
+            {
+              name: 'title',
+              type: 'string',
+              title: 'Label',
+              description: 'e.g. "Choose film" or "Choose stills"',
+              validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'items',
+              type: 'array',
+              title: 'Items',
+              of: [
+                {
+                  type: 'image',
+                  options: {hotspot: true},
+                  fields: [
+                    {
+                      name: 'alt',
+                      type: 'string',
+                      title: 'Alternative text',
+                    },
+                    {
+                      name: 'caption',
+                      type: 'string',
+                      title: 'Caption',
+                    },
+                  ],
+                },
+                {
+                  type: 'object',
+                  name: 'vimeoVideo',
+                  title: 'Video (Vimeo)',
+                  fields: [
+                    {
+                      name: 'url',
+                      type: 'url',
+                      title: 'Vimeo URL',
+                      validation: (Rule: any) => Rule.required(),
+                    },
+                    {
+                      name: 'caption',
+                      type: 'string',
+                      title: 'Caption',
+                    },
+                  ],
+                  preview: {
+                    select: {
+                      title: 'url',
+                      subtitle: 'caption',
+                    },
+                  },
+                },
+                {
+                  type: 'object',
+                  name: 'videoFile',
+                  title: 'Video File',
+                  fields: [
+                    {
+                      name: 'file',
+                      type: 'file',
+                      title: 'Video File',
+                      description: 'Upload a video file directly (WebM or MP4).',
+                      options: {
+                        accept: 'video/*',
+                      },
+                      validation: (Rule: any) => Rule.required(),
+                    },
+                    {
+                      name: 'caption',
+                      type: 'string',
+                      title: 'Caption',
+                    },
+                  ],
+                  preview: {
+                    select: {
+                      title: 'caption',
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+          preview: {
+            select: {
+              title: 'title',
+            },
+          },
+        },
+      ],
+    }),
   ],
 })

@@ -88,34 +88,45 @@ export default function HomePage() {
     getProjects();
   }, []);
 
-  // Flatten: one tile per preview clip. A project with no clips still gets
-  // one tile using its cover image so it stays reachable. Memoized so the
-  // random order and featured flags stay stable across re-renders.
+  // Interleave clips round-robin across projects so tiles from the same
+  // project are always separated by the other projects' tiles. Clip order
+  // within each project and the project order each round are shuffled, so
+  // it still feels random — just never clustered.
   const tiles: Tile[] = useMemo(() => {
-    const flat = projects
+    const remaining = projects
       .filter((project) => project.slug?.current)
-      .flatMap((project): Tile[] => {
+      .map((project) => {
         const clips = (project.previewClipUrls ?? []).filter(
           (url): url is string => Boolean(url),
         );
-        if (clips.length === 0) return [{ project, clipUrl: null }];
-        return clips.map((clipUrl) => ({ project, clipUrl }));
-      });
+        // Projects with no clips still get one cover-image tile.
+        const queue: (string | null)[] = clips.length ? clips : [null];
+        return {
+          project,
+          queue: queue.sort(() => Math.random() - 0.5),
+        };
+      })
+      .sort(() => Math.random() - 0.5);
 
-    // Shuffle with a greedy pass so a clip never sits directly next to
-    // another clip from the same project (unless it can't be avoided).
-    const pool = [...flat].sort(() => Math.random() - 0.5);
-    const ordered: typeof flat = [];
-    while (pool.length > 0) {
-      const last = ordered[ordered.length - 1];
-      const idx = pool.findIndex(
-        (tile) => !last || tile.project._id !== last.project._id,
-      );
-      ordered.push(pool.splice(idx === -1 ? 0 : idx, 1)[0]);
+    const ordered: Tile[] = [];
+    while (remaining.length > 0) {
+      for (const entry of [...remaining].sort(() => Math.random() - 0.5)) {
+        const clipUrl = entry.queue.shift();
+        if (clipUrl !== undefined) {
+          ordered.push({ project: entry.project, clipUrl });
+        }
+        if (entry.queue.length === 0) {
+          remaining.splice(remaining.indexOf(entry), 1);
+        }
+      }
     }
-
     return ordered;
   }, [projects]);
+
+  // Mobile: one tile per project (cover image only), so no repeated images.
+  const mobileTiles: Tile[] = projects
+    .filter((project) => project.slug?.current)
+    .map((project) => ({ project, clipUrl: null }));
 
   if (loading) {
     return (
@@ -127,7 +138,15 @@ export default function HomePage() {
 
   return (
     <div className="min-h-dvh bg-black">
-      <div className="grid grid-cols-1 gap-px">
+      {/* Mobile: one cover tile per project */}
+      <div className="grid grid-cols-1 gap-px md:hidden">
+        {mobileTiles.map((tile) => (
+          <ProjectTile key={tile.project._id} tile={tile} />
+        ))}
+      </div>
+
+      {/* Desktop: one tile per preview clip */}
+      <div className="hidden md:grid grid-cols-1 gap-px">
         {tiles.map((tile, index) => (
           <ProjectTile key={`${tile.project._id}-${index}`} tile={tile} />
         ))}

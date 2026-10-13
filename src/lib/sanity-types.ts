@@ -58,6 +58,31 @@ export interface ProjectVideo {
   caption?: string;
 }
 
+// An item inside a "choose" gallery — an image, a Vimeo video, or an
+// uploaded video file (e.g. WebM)
+export interface ChooseGalleryItem {
+  _type: "image" | "vimeoVideo" | "videoFile" | string;
+  _key: string;
+  // image items
+  asset?: {
+    _ref: string;
+    _type: string;
+  };
+  alt?: string;
+  // vimeo items
+  url?: string;
+  // uploaded video file items
+  fileUrl?: string;
+  // all
+  caption?: string;
+}
+
+export interface ChooseGallery {
+  _key: string;
+  title: string;
+  items?: ChooseGalleryItem[];
+}
+
 export interface Project {
   _id: string;
   title: string;
@@ -70,4 +95,5 @@ export interface Project {
   content: any[]; // Portable Text content
   videos?: ProjectVideo[]; // <-- NEW: Array of videos
   gallery?: GalleryImage[]; // <-- NEW: Array of gallery images
+  chooseGalleries?: ChooseGallery[]; // "Choose" galleries of switchable media
 }

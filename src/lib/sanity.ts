@@ -33,7 +33,20 @@ export const projectBySlugQuery = `*[_type == "project" && slug.current == $slug
   coverImage,
   content,
   videos[],
-  gallery[]
+  gallery[],
+  chooseGalleries[]{
+    _key,
+    title,
+    items[]{
+      _key,
+      _type,
+      alt,
+      caption,
+      asset,
+      url,
+      "fileUrl": file.asset->url
+    }
+  }
 }`;
 
 // Query for site-wide settings (includes About page content)
